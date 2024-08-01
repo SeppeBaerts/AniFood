@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Application
+    x:Class="AniFoodNew.App"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:AniFoodNew.Behaviors"
+    xmlns:converters="clr-namespace:AniFoodNew.Converters"
+    xmlns:local="clr-namespace:AniFoodNew">
+    <Application.Resources>
+        <ResourceDictionary>
+            <converters:BoolToSwipeModeConverter x:Key="BoolToSwipeMode" />
+            <converters:IntsToGridDefinitionsConverter x:Key="IntsGridConverter" />
+            <behaviors:ValidEmailBehavior x:Key="ValidEmailBehavior" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/DefaultStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

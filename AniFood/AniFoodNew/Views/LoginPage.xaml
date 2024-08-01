@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    Title="Login"
+    x:Class="AniFoodNew.Views.LoginPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:AniFoodNew.Behaviors"
+    xmlns:controls="clr-namespace:AniFoodNew.Controls"
+    xmlns:models="clr-namespace:AniFoodNew.ViewModels"
+    x:DataType="models:LoginViewModel">
+    <Grid>
+        <VerticalStackLayout
+            MinimumWidthRequest="{OnPlatform WinUI='450', Default='0'}"
+            HorizontalOptions="{OnPlatform WinUI='Center',Default='Fill'}"
+            Spacing="30"
+            Style="{StaticResource MainStack}"
+            VerticalOptions="Center">
+            <Grid
+                Margin="10,0"
+                ColumnDefinitions="auto, *"
+                ColumnSpacing="10"
+                RowDefinitions="*,*"
+                RowSpacing="30">
+                <Label
+                    HorizontalOptions="Center"
+                    Style="{DynamicResource SettingsLabel}"
+                    Text="Email:"
+                    VerticalOptions="Center" />
+                <Entry
+                    Grid.Column="1"
+                    Keyboard="Email"
+                    Placeholder="Email"
+                    Text="{Binding Username}">
+                    <Entry.Behaviors>
+                        <behaviors:ValidEmailBehavior />
+                    </Entry.Behaviors>
+                </Entry>
+                <Label
+                    Grid.Row="1"
+                    HorizontalOptions="Center"
+                    Style="{DynamicResource SettingsLabel}"
+                    Text="Password:"
+                    VerticalOptions="Center" 
+                    />
+                <Entry
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    IsPassword="True"
+                    Placeholder="Password"
+                    Text="{Binding Password}" />
+            </Grid>
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                <Button
+                    Command="{Binding LoginCommand}"
+                    SemanticProperties.Description="Try to log in with the current credentials"
+                    Text="Login" />
+                <Button
+                    Grid.Column="1"
+                    Command="{Binding RegisterCommand}"
+                    SemanticProperties.Description="Go to the Register page to create an account"
+                    Text="Register" />
+            </Grid>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

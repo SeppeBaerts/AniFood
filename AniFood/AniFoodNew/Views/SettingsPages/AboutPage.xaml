@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AniFoodNew.Views.SettingsPages.AboutPage"
+             Title="About">
+    <VerticalStackLayout Style="{DynamicResource MainStack}">
+        <Label Style="{DynamicResource Title}" Text="Used resources" />
+        <Label Style="{DynamicResource SettingsLabel}" Text="Icons were from SVG repo, I do not have the links anymore sadly." />
+        <Label Style="{DynamicResource SettingsLabel}" Text="This app was an assignment for C# mobile." />
+        <Label Style="{DynamicResource SettingsLabel}" Text="Getting notifications when your food bag is almost empty is made possible by plugin.LocalNotifications from thudugala" />
+        <Label Style="{DynamicResource SettingsLabel}" Text="The fancy loading animations were made possible by the SkiaSharp.Extended.UI.Maui, this is made by microsoft and the community. " />
+    </VerticalStackLayout>
+</ContentPage>

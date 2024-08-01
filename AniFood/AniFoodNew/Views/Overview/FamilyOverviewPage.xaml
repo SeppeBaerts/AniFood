@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Name="this"
+    Title="Family Overview"
+    x:Class="AniFoodNew.Views.Overview.FamilyOverviewPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:items="clr-namespace:AniFoodNew.Models.Classes"
+    xmlns:models="clr-namespace:AniFoodNew.ViewModels"
+    x:DataType="models:FamilyOverviewViewModel">
+    <ScrollView Padding="10">
+        <VerticalStackLayout Style="{DynamicResource MainStack}">
+            <CollectionView
+                ItemsSource="{Binding Famillies}"
+                SelectedItem="{Binding SelectedFamily}"
+                SelectionMode="Single">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout
+                        HorizontalItemSpacing="15"
+                        Orientation="Vertical"
+                        Span="3"
+                        VerticalItemSpacing="15" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="items:FullFamily">
+                        <Button
+                            Command="{Binding BindingContext.SelectFamilyCommand, Source={x:Reference this}}"
+                            CommandParameter="{Binding .}"
+                            SemanticProperties.Description="{Binding FamilyName, StringFormat='Only show users from {0} Family.'}"
+                            Text="{Binding FamilyName}">
+                        </Button>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <CollectionView Header="{Binding .}" ItemsSource="{Binding FamUsers}">
+                <CollectionView.HeaderTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="*, auto">
+                            <Label Style="{DynamicResource Title}" Text="Users" />
+                            <ImageButton
+                                Grid.Column="1"
+                                Command="{Binding ShowFamCodeCommand}"
+                                MaximumWidthRequest="30"
+                                SemanticProperties.Description="Show the Code to add a user"
+                                Source="plus.png" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.HeaderTemplate>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="items:UserInfoModel">
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem
+                                        BackgroundColor="Red"
+                                        Command="{Binding BindingContext.RemoveFromFamilyCommand, Source={x:Reference this}}"
+                                        CommandParameter="{Binding .}"
+                                        SemanticProperties.Description="{Binding NickName, StringFormat='Delete {0} from the family.'}"
+                                        Text="Remove" />
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <Border Style="{DynamicResource CardBorder}" MinimumHeightRequest="100">
+                                <Grid RowDefinitions="2*,*">
+                                    <Label
+                                        HorizontalOptions="Center"
+                                        MinimumHeightRequest="50"
+                                        Style="{DynamicResource TitlePrimary}"
+                                        Text="{Binding NickName}"/>
+                                    <Label
+                                        Grid.Row="1"
+                                        HorizontalOptions="Center"
+                                        IsVisible="{Binding IsFamilyHead}"
+                                        Style="{DynamicResource LabelSecondary}"
+                                        Text="(Family Head)" />
+                                    <ImageButton
+                                        Grid.RowSpan="2"
+                                        Command="{Binding BindingContext.RemoveFromFamilyCommand, Source={x:Reference this}}"
+                                        CommandParameter="{Binding .}"
+                                        HorizontalOptions="End"
+                                        IsVisible="{OnPlatform Default='true', Android='false', iOS='false'}"
+                                        MaximumWidthRequest="30"
+                                        SemanticProperties.Description="{Binding NickName, StringFormat='Delete {0} from the family.'}"
+                                        Source="garbage_can.png"
+                                        VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Button
+                Command="{Binding SetFamilyLocationCommand}"
+                SemanticProperties.Description="This will set the location of the currently selected family. Next time you open the app here it will autoswitch to this family."
+                Text="Set family location"/>
+            <Button
+                Command="{Binding DeleteFamilyCommand}"
+                SemanticProperties.Description="This will Delete this family."
+                Style="{DynamicResource DangerButton}"
+                Text="Delete Family" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

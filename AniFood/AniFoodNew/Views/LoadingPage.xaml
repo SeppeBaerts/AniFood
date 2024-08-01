@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    Title="Getting Data"
+    x:Class="AniFoodNew.Views.LoadingPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
+    xmlns:models="clr-namespace:AniFoodNew.ViewModels"
+    x:DataType="models:LoadingPageViewModel">
+    <Grid RowDefinitions="5*,*">
+        <skia:SKLottieView
+            Source="loading_paw.json"
+            RepeatCount="-1"
+            WidthRequest="200"
+            HeightRequest="200"
+            SemanticProperties.Description="A paw appearing and disappearing for loading"
+            HorizontalOptions="Center"
+            VerticalOptions="Center" />
+        <ProgressBar x:Name="MainProgressBar"
+            MaximumWidthRequest="250"
+            Progress="{Binding Progress}"
+            ProgressColor="{DynamicResource SecondaryColor}"
+            VerticalOptions="End" />
+        
+    </Grid>
+</ContentPage>

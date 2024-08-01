@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    Title="No Connection"
+    x:Class="AniFoodNew.Views.NoConnectionPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:AniFoodNew.ViewModels"
+    x:DataType="models:NoConnectionViewModel">
+    <Grid
+        Padding="25"
+        RowDefinitions="*,*"
+        RowSpacing="25">
+        <Label
+            Style="{DynamicResource CenterTitle}"
+            Text="Something went wrong, There is no connection"
+            VerticalOptions="End" />
+        <Button
+            Grid.Row="1"
+            Command="{Binding RefreshCommand}"
+            HorizontalOptions="Center"
+            Text="Refresh"
+            VerticalOptions="Start" />
+    </Grid>
+</ContentPage>

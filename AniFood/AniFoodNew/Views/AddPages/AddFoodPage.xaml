@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Name="this"
+    Title="Create Food"
+    x:Class="AniFoodNew.Views.AddFoodPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:classes="clr-namespace:AniFoodNew.Models.Classes"
+    xmlns:models="clr-namespace:AniFoodNew.ViewModels"
+    x:DataType="models:AddFoodViewModel">
+    <ScrollView>
+        <Grid RowDefinitions="*,50">
+            <VerticalStackLayout Spacing="15" Style="{DynamicResource MainStack}">
+                <Grid ColumnDefinitions="*,*">
+                    <Label Style="{DynamicResource SettingsLabel}" Text="Name: " />
+                    <Entry
+                        Grid.Column="1"
+                        Placeholder="Name"
+                        SemanticProperties.Description="The name of the food"
+                        Text="{Binding Name}" />
+                </Grid>
+                <Grid ColumnDefinitions="*,*">
+                    <Label Style="{DynamicResource SettingsLabel}" Text="Capacity: (gram)" />
+                    <Entry
+                        Grid.Column="1"
+                        Keyboard="Numeric"
+                        Placeholder="Capacity"
+                        SemanticProperties.Description="The amount of food in the bag in grammes"
+                        Text="{Binding Capacity}" />
+                </Grid>
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="20">
+                    <VerticalStackLayout Spacing="15">
+                        <Button
+                            Command="{Binding TakePictureCommand}"
+                            SemanticProperties.Description="Take a picture of the bag"
+                            Text="Take picture" />
+                        <Button
+                            Command="{Binding ChoosePictureCommand}"
+                            SemanticProperties.Description="Choose a picture from your gallery"
+                            Text="Choose picture" />
+                    </VerticalStackLayout>
+                    <Image
+                        Grid.Column="1"
+                        MaximumWidthRequest="150"
+                        Source="{Binding ImageUri}" />
+                </Grid>
+
+                <CollectionView x:Name="FamColView"
+                    Margin="0,20,0,10"
+                    Header="{Binding .}"
+                    ItemsSource="{Binding FullFamilies}"
+                    SelectedItem="{Binding SelectedFamily}"
+                    SelectionMode="Single">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            HorizontalItemSpacing="15"
+                            Orientation="Vertical"
+                            Span="3"
+                            VerticalItemSpacing="15" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.HeaderTemplate>
+                        <DataTemplate>
+                            <Label
+                                SemanticProperties.HeadingLevel="Level1"
+                                Style="{DynamicResource SmallTitle}"
+                                Text="Select family:" />
+                        </DataTemplate>
+                    </CollectionView.HeaderTemplate>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="classes:FullFamily">
+                            <Button
+                                Command="{Binding BindingContext.FamButtonCommand, Source={x:Reference this}}"
+                                CommandParameter="{Binding .}"
+                                SemanticProperties.Description="{Binding FamilyName, StringFormat='Add the food to the {0} family'}"
+                                Text="{Binding FamilyName}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <CollectionView x:Name="AnimColView"
+                    Header="{Binding .}"
+                    ItemsSource="{Binding FamilyAnimals}"
+                    SelectedItems="{Binding SelectedAnimals, Mode=TwoWay}"
+                    SelectionMode="Multiple">
+
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="15" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.HeaderTemplate>
+                        <DataTemplate>
+                            <Label
+                                SemanticProperties.HeadingLevel="Level1"
+                                Style="{DynamicResource SmallTitle}"
+                                Text="Select animals:" />
+                        </DataTemplate>
+                    </CollectionView.HeaderTemplate>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="classes:Animal">
+                            <Button
+                                Command="{Binding BindingContext.AnimButtonCommand, Source={x:Reference this}}"
+                                CommandParameter="{Binding .}"
+                                SemanticProperties.Description="{Binding Name, StringFormat='Add or remove {0} from your selected animals'}"
+                                Text="{Binding Name}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+            <Button
+                Grid.Row="1"
+                Margin="20,0"
+                Command="{Binding CreateFoodCommand}"
+                Text="Add Food" />
+        </Grid>
+
+    </ScrollView>
+
+</ContentPage>

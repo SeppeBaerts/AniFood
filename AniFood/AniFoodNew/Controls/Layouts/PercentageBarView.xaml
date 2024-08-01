@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView x:Name="This"
+    x:Class="AniFoodNew.Controls.Layouts.PercentageBar"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    BindingContext="{x:Reference This}">
+    <VerticalStackLayout>
+        <Label Text="{Binding PercentageBarName}" />
+        <Border Padding="0" Style="{DynamicResource CardBorder}">
+            <Grid Padding="0" ColumnDefinitions="{Binding PercentageBarValues, Converter={StaticResource IntsGridConverter}}">
+                <Border Padding="25" Style="{DynamicResource ActiveProgressBorder}">
+                    <Label IsVisible="{Binding ShowPercentage}" Text="{Binding Percentage}" />
+                </Border>
+            </Grid>
+        </Border>
+    </VerticalStackLayout>
+</ContentView>

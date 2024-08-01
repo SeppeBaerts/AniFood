@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mct:Popup
+    x:Class="AniFoodNew.Controls.Popups.MainPopupPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mct="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
+    xmlns:model="clr-namespace:AniFoodNew.ViewModels.PopupViewModels"
+    x:DataType="model:MainPopupViewModel"
+    CanBeDismissedByTappingOutsideOfPopup="{Binding CloseOnOutsideClick}"
+    Color="Transparent">
+    <Border
+        MinimumHeightRequest="200"
+        MinimumWidthRequest="300"
+        Style="{DynamicResource CardBorder}">
+        <Grid RowDefinitions="*,2*,*">
+            <Label Style="{DynamicResource TitlePrimary}" Text="{Binding Title}" />
+            <Label Style="{DynamicResource LabelSecondary}" Grid.Row="1" Text="{Binding Description}" />
+            <Grid Grid.Row="2" ColumnDefinitions="*,auto,auto" ColumnSpacing="20">
+                <Button
+                    Grid.Column="1"
+                    Clicked="Button_Clicked"
+                    TextColor="{DynamicResource PrimaryTextColor}"
+                    Command="{Binding LeftButtonClickedCommand}"
+                    IsVisible="{Binding HasLeftButtonProperties}"
+                    Text="{Binding ButtonLeft}" />
+                <Button
+                    Grid.Column="2"
+                    Clicked="Button_Clicked"
+                    TextColor="{DynamicResource PrimaryTextColor}"
+                    Command="{Binding RightButtonClickedCommand}"
+                    Text="{Binding ButtonRight}" />
+            </Grid>
+
+        </Grid>
+    </Border>
+</mct:Popup>

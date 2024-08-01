@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    Title="Create Family"
+    x:Class="AniFoodNew.Views.AddPages.CreateFamilyPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:AniFoodNew.ViewModels.AddViewModels"
+    x:DataType="model:CreateFamilyViewModel">
+    <Grid RowDefinitions="*,50" Padding="20,10">
+        <VerticalStackLayout Style="{StaticResource MainStack}" VerticalOptions="Center" HorizontalOptions="{OnPlatform WinUI='Center', Default='Fill'}" MinimumWidthRequest="{OnPlatform WinUI='450', Default='250'}">
+            <Grid ColumnDefinitions="*,*">
+                <Label Text="Name of the family:" Style="{DynamicResource SettingsLabel}" />
+                <Entry
+                    Grid.Column="1"
+                    SemanticProperties.Description="The Name of the family"
+                    Text="{Binding FamilyName}" />
+            </Grid>
+            <Button
+                Command="{Binding GoToAddAnimalCommand}"
+                IsVisible="{Binding HasNoModel}"
+                SemanticProperties.Description="Goes to the create animal page."
+                Text="Create first animal" />
+            <Label Text="You have added the family's first pet!" TextColor="Green"  IsVisible="{Binding HasModel}"/>
+        </VerticalStackLayout>
+        <Button
+            Grid.Row="1"
+            Command="{Binding CreateFamilyCommand}"
+            SemanticProperties.Description="Create the family"
+            Text="Create Family" />
+    </Grid>
+</ContentPage>

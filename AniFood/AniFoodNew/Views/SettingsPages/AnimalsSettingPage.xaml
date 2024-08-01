@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    Title="Animal Settings"
+    x:Class="AniFoodNew.Views.SettingsPages.AnimalsSettingPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:AniFoodNew.ViewModels.SettingsViewModels"
+    x:DataType="model:AnimalsSettingsViewModel">
+    <VerticalStackLayout Style="{StaticResource MainStack}">
+        <VerticalStackLayout Style="{DynamicResource SettingsContainer}">
+            <Label Style="{DynamicResource Title}" Text="Gestures"/>
+            <Grid ColumnDefinitions="3*,*">
+                <Label Style="{DynamicResource SettingsLabel}" Text="Swipe left to Feed"/>
+            <Switch IsToggled="{Binding FeedOnSwipe}" Grid.Column="1" SemanticProperties.Description="Toggles the posibility to swipe to feed the animal."/>
+            </Grid>
+            <Line Style="{DynamicResource SettingLine}" StrokeThickness="1" X2="500" Y2="0" Y1="0" X1="0"/>
+        </VerticalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>

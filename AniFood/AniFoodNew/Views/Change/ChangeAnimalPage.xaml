@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    Title="Change details"
+    x:Class="AniFoodNew.Views.Change.ChangeAnimalPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:AniFoodNew.ViewModels.ChangeViewModels"
+    x:DataType="model:ChangeAnimalViewModel">
+    <ContentPage.Resources>
+        <Style TargetType="Grid">
+            <Setter Property="ColumnDefinitions" Value="*,*" />
+            <Setter Property="ColumnSpacing" Value="20" />
+        </Style>
+    </ContentPage.Resources>
+    <VerticalStackLayout Style="{StaticResource MainStack}">
+        <ScrollView>
+            <VerticalStackLayout>
+                <Grid>
+                    <Label Style="{DynamicResource SettingsLabel}" Text="Name: " />
+                    <Entry
+                        Grid.Column="1"
+                        IsSpellCheckEnabled="False"
+                        IsTextPredictionEnabled="False"
+                        Placeholder="Name"
+                        Text="{Binding Animal.Name}" />
+                </Grid>
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="20">
+                    <Label Style="{DynamicResource SettingsLabel}" Text="Amount per day:(gram)" />
+                    <Entry
+                        Grid.Column="1"
+                        Keyboard="Numeric"
+                        SemanticProperties.Hint="Enter the weight of food (in gram) your pet gets every day "
+                        Text="{Binding Animal.FoodAmountPerDay}" />
+                </Grid>
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="20">
+                    <Label Style="{DynamicResource SettingsLabel}" Text="Timer per day: " />
+                    <Entry
+                        Grid.Column="1"
+                        Keyboard="Numeric"
+                        SemanticProperties.Hint="Enter the amount of times you need to feed your pet each day. "
+                        Text="{Binding Animal.FoodTimesPerDay}" />
+                </Grid>
+                <Grid>
+                    <Label Style="{DynamicResource SettingsLabel}" Text="Birthday:" />
+                    <DatePicker
+                        Grid.Column="1"
+                        Date="{Binding Animal.Birthday}"
+                        MaximumDate="{Binding CurrentDate}"
+                        SemanticProperties.Hint="Enter the BirthDay of your pet" />
+                </Grid>
+                <Grid>
+                    <Label Style="{DynamicResource SettingsLabel}" Text="Breed:" />
+                    <Entry
+                        Grid.Column="1"
+                        SemanticProperties.Hint="Enter the breed of your pet"
+                        Text="{Binding Animal.Breed}" />
+                </Grid>
+                <Grid>
+                    <Label Style="{DynamicResource SettingsLabel}" Text="Notes:" />
+                    <Entry
+                        Grid.Column="1"
+                        SemanticProperties.Hint="Enter extra info about your pet here"
+                        Text="{Binding Animal.Notes}" />
+                </Grid>
+                <Grid>
+                    <VerticalStackLayout Spacing="15">
+                        <Button
+                            Command="{Binding TakePictureCommand}"
+                            SemanticProperties.Hint="Take a picture of your pet"
+                            Text="Take picture"
+                            VerticalOptions="Center" />
+                        <Button
+                            Command="{Binding ChoosePictureCommand}"
+                            SemanticProperties.Hint="Choose a picture of your pet from your camera role"
+                            Text="Choose picture"
+                            VerticalOptions="Center" />
+                        <Button
+                            Command="{Binding RemovePictureCommand}"
+                            SemanticProperties.Hint="Delete the new picture"
+                            Text="Revert picture"
+                            VerticalOptions="Center" />
+                    </VerticalStackLayout>
+                    <Image
+                        Grid.Column="1"
+                        MaximumWidthRequest="150"
+                        Source="{Binding Animal.ImageUri}" />
+                </Grid>
+                <Button Command="{Binding ChangeAnimalCommand}" Text="Change Animal">
+                </Button>
+            </VerticalStackLayout>
+        </ScrollView>
+    </VerticalStackLayout>
+</ContentPage>

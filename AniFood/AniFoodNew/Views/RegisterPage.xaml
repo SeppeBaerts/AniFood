@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    Title="Register"
+    x:Class="AniFoodNew.Views.RegisterPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:AniFoodNew.Behaviors"
+    xmlns:models="clr-namespace:AniFoodNew.ViewModels"
+    x:DataType="models:RegisterViewModel">
+    <VerticalStackLayout
+        HorizontalOptions="{OnPlatform WinUI='Center', Default='Fill'}"
+        MinimumWidthRequest="{OnPlatform WinUI='450', Default='0'}"
+        Style="{DynamicResource MainStack}"
+        VerticalOptions="Center">
+        <Entry
+            Placeholder="First name"
+            Text="{Binding FirstName}">
+        </Entry>
+        <Entry
+            Placeholder="Last name"
+            Text="{Binding LastName}">
+        </Entry>
+        <Entry
+            Placeholder="Nickname"
+            Text="{Binding Nickname}">
+        </Entry>
+        <Entry
+            Keyboard="Email"
+            Placeholder="Email"
+            Text="{Binding Email}">
+            <Entry.Behaviors>
+                <behaviors:ValidEmailBehavior />
+            </Entry.Behaviors>
+        </Entry>
+        <Entry
+            Placeholder="Password"
+            Text="{Binding Password}">
+        </Entry>
+        <HorizontalStackLayout>
+            <Label Style="{DynamicResource SettingsLabel}" Text="Do you have a family code?" />
+            <CheckBox IsChecked="{Binding Checked}" SemanticProperties.Description="Check this box if you have a family code" />
+        </HorizontalStackLayout>
+        <Entry
+            IsVisible="{Binding Checked}"
+            Placeholder="Family code"
+            Text="{Binding FamilyCode}" />
+        <Entry
+            IsVisible="{Binding NotChecked}"
+            Placeholder="Family Name"
+            Text="{Binding FamilyName}" />
+        <Button
+            Command="{Binding RegisterCommand}"
+            SemanticProperties.Hint="Try to register yourself as a user."
+            Text="Register">
+        </Button>
+    </VerticalStackLayout>
+</ContentPage>

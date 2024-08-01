@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    Title="Settings"
+    x:Class="AniFoodNew.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:AniFoodNew.ViewModels"
+    x:DataType="models:SettingsViewModel">
+    <VerticalStackLayout Style="{DynamicResource MainStack}">
+        <VerticalStackLayout Style="{DynamicResource SettingsContainer}">
+            <Label Style="{DynamicResource Title}" Text="Appearance" />
+            <Picker
+                ItemsSource="{Binding ThemeList}"
+                MinimumHeightRequest="50"
+                SelectedItem="{Binding SelectedTheme}"
+                SemanticProperties.Hint="Change the theme-color">
+            </Picker>            
+            <Picker
+                IsEnabled="{Binding CanSetMainTheme}"
+                ItemsSource="{Binding MainThemeList}"
+                MinimumHeightRequest="50"
+                SelectedItem="{Binding SelectedMainTheme}"
+                SemanticProperties.Hint="Change the main theme-color">
+            </Picker>
+        </VerticalStackLayout>
+        <VerticalStackLayout Style="{DynamicResource SettingsContainer}" IsVisible="{OnPlatform Default='True', WinUI='False'}">
+            <Label Style="{DynamicResource Title}" Text="Functionality"/>
+            <Grid ColumnDefinitions="*, auto" >
+                <Label Style="{DynamicResource SettingsLabel}" Text="Get food reminder"/>
+                <Switch IsToggled="{Binding ShowFoodNotifications}" Grid.Column="1" SemanticProperties.Hint="Enable or disable the notification reminder when a food bag is almost empty"/>
+            </Grid>
+            <Grid ColumnDefinitions="*, auto">
+                <Label Style="{DynamicResource SettingsLabel}" Text="Get feed reminder"/>
+                <Switch IsToggled="{Binding ShowFeedNotifications}" Grid.Column="1" SemanticProperties.Hint="Enable or disable the notification reminder when your Pet did not yet have it's food"/>
+            </Grid>
+        </VerticalStackLayout>
+        <Button Command="{Binding LogoutCommand}" Text="Log out" SemanticProperties.Hint="Logs the user out."/>
+    </VerticalStackLayout>
+</ContentPage>

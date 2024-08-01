@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    Title="Details"
+    x:Class="AniFoodNew.Views.Detail.AnimalDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:classes="clr-namespace:AniFoodNew.Models.Classes"
+    xmlns:controls="clr-namespace:AniFoodNew.Controls"
+    xmlns:details="clr-namespace:AniFoodNew.ViewModels.Detail"
+    xmlns:models="clr-namespace:AniFoodNew.ViewModels"
+    x:DataType="details:AnimalDetailViewModel">
+    <ScrollView>
+        <VerticalStackLayout>
+            <Border Style="{DynamicResource CardBorder}">
+                <Grid ColumnDefinitions="{OnPlatform '*', WinUI='*,3*'}" RowDefinitions="{OnPlatform '2*,3*,*,*', WinUI='4*,*,*'}">
+                    <Border Style="{StaticResource PictureBorder}">
+                        <Image Source="{Binding Animal.ImageUri}" />
+                    </Border>
+                    <VerticalStackLayout
+                        Grid.Row="{OnPlatform '1', WinUI='0'}"
+                        Grid.Column="1"
+                        Spacing="10">
+                        <controls:NameValuePairView Name="Name:" Value="{Binding Animal.Name}" />
+                        <controls:NameValuePairView Name="Breed:" Value="{Binding Animal.Breed}" />
+                        <controls:NameValuePairView Name="Birthday:" Value="{Binding Animal.Birthday}" />
+                        <controls:NameValuePairView Name="Age:" Value="{Binding Animal.AgeInYears}" />
+                        <controls:NameValuePairView Name="Family:" Value="{Binding Animal.MainFamily.FamilyName}" />
+                        <controls:NameValuePairView Name="Food:" Value="{Binding Animal.Food.Name, FallbackValue='No Food Selected'}" />
+                        <controls:NameValuePairView Name="Last time fed:" Value="{Binding Animal.LastTimeFedString}" />
+                        <controls:NameValuePairView Name="Notes:" Value="{Binding Animal.Notes, FallbackValue='No notes yet'}" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout
+                        Grid.Row="3"
+                        Grid.Column="{OnPlatform '0', WinUI='1'}"
+                        Grid.ColumnSpan="{OnPlatform '2', WinUI='1'}"
+                        Margin="0,20,0,0">
+                        <Label Style="{DynamicResource LabelPrimary}" Text="Times fed:" />
+                        <Border Style="{DynamicResource PercentageBarBorder}">
+                            <Grid Padding="0" ColumnDefinitions="{Binding Animal.FoodArray, Converter={StaticResource IntsGridConverter}}">
+                                <Border Padding="10" Style="{DynamicResource ActiveProgressBorder}">
+                                </Border>
+                                <Label
+                                    Grid.ColumnSpan="2"
+                                    Margin="20,0,0,0"
+                                    Padding="5"
+                                    Style="{DynamicResource LabelPrimary}"
+                                    Text="{Binding Animal.Percentage}" />
+                            </Grid>
+                        </Border>
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+            <Grid
+                ColumnDefinitions="*,*"
+                ColumnSpacing="15"
+                RowDefinitions="*,*"
+                RowSpacing="15">
+                <Button
+                    Command="{Binding ChangeAnimalCommand}"
+                    SemanticProperties.Description="Sends you to the page to change this animal"
+                    Text="Change" />
+                <Button
+                    Grid.Column="1"
+                    Command="{Binding RemoveAnimalCommand}"
+                    SemanticProperties.Description="Sends you to the page to Remove this animal"
+                    Text="Remove" />
+                <Button
+                    Grid.Row="1"
+                    Command="{Binding AddFoodCommand}"
+                    SemanticProperties.Description="Add a food-source for this Animal"
+                    Text="Add food" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Command="{Binding FeedAnimalCommand}"
+                    SemanticProperties.Description="Feeds this animal"
+                    Text="Feed" />
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

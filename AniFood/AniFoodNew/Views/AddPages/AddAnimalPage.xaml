@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Name="this"
+    Title="Create Pet"
+    x:Class="AniFoodNew.Views.AddAnimalPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:classes="clr-namespace:AniFoodNew.Models.Classes"
+    xmlns:controls="clr-namespace:AniFoodNew.Controls"
+    xmlns:models="clr-namespace:AniFoodNew.ViewModels"
+    x:DataType="models:AddAnimalViewModel">
+    <ContentPage.Resources>
+        <Style TargetType="Grid">
+            <Setter Property="ColumnDefinitions" Value="*,*" />
+            <Setter Property="ColumnSpacing" Value="20" />
+        </Style>
+    </ContentPage.Resources>
+    <Grid
+        ColumnDefinitions="*"
+        ColumnSpacing="0"
+        RowDefinitions="*,50">
+        <ScrollView Grid.Row="0" Padding="25,10">
+            <VerticalStackLayout>
+                <Grid>
+                    <Label Style="{DynamicResource SettingsLabel}" Text="Name: " />
+                    <Entry
+                        Grid.Column="1"
+                        IsSpellCheckEnabled="False"
+                        IsTextPredictionEnabled="False"
+                        Placeholder="Name"
+                        SemanticProperties.Description="Enter the name for your pet"
+                        Text="{Binding Name}" />
+                </Grid>
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="20">
+                    <Label Style="{DynamicResource SettingsLabel}" Text="Amount of food per day:(gram)" />
+                    <Entry
+                        Grid.Column="1"
+                        Keyboard="Numeric"
+                        SemanticProperties.Description="Enter the weight of food (in gram) your pet gets every day "
+                        Text="{Binding FoodAmountPerDay}" />
+                </Grid>
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="20">
+                    <Label Style="{DynamicResource SettingsLabel}" Text="Timer per day: " />
+                    <Entry
+                        Grid.Column="1"
+                        Keyboard="Numeric"
+                        SemanticProperties.Description="Enter the amount of times you need to feed your pet each day. "
+                        Text="{Binding FoodTimesPerDay}" />
+                </Grid>
+                <Grid>
+                    <Label Style="{DynamicResource SettingsLabel}" Text="Birthday:" />
+                    <DatePicker
+                        Grid.Column="1"
+                        Date="{Binding BirthDay}"
+                        MaximumDate="{Binding CurrentDate}"
+                        SemanticProperties.Description="Enter the BirthDay of your pet" />
+                </Grid>
+                <Grid>
+                    <Label Style="{DynamicResource SettingsLabel}" Text="Breed:" />
+                    <Entry
+                        Grid.Column="1"
+                        SemanticProperties.Description="Enter the breed of your pet"
+                        Text="{Binding Breed}" />
+                </Grid>
+                <Grid>
+                    <Label Style="{DynamicResource SettingsLabel}" Text="Notes:" />
+                    <Entry
+                        Grid.Column="1"
+                        SemanticProperties.Description="Enter extra info about your pet here"
+                        Text="{Binding Notes}" />
+                </Grid>
+                <Grid>
+                    <VerticalStackLayout Spacing="15">
+                        <Button
+                            Command="{Binding TakePictureCommand}"
+                            SemanticProperties.Description="Take a picture of your pet"
+                            Text="Take picture"
+                            VerticalOptions="Center" />
+                        <Button
+                            Command="{Binding ChoosePictureCommand}"
+                            SemanticProperties.Description="Choose a picture of your pet from your camera role"
+                            Text="Choose picture"
+                            VerticalOptions="Center" />
+                    </VerticalStackLayout>
+                    <Image
+                        Grid.Column="1"
+                        MaximumWidthRequest="150"
+                        Source="{Binding ImageUri}" />
+                </Grid>
+                <CollectionView
+                    Header="{Binding .}"
+                    IsVisible="{Binding NotSentAnimInfoBack}"
+                    ItemsSource="{Binding Families}"
+                    SelectedItem="{Binding SelectedFamily}"
+                    SelectionMode="Single">
+                    <CollectionView.HeaderTemplate>
+                        <DataTemplate>
+                            <Label
+                                SemanticProperties.HeadingLevel="Level1"
+                                Style="{DynamicResource SmallTitle}"
+                                Text="Select family:" />
+                        </DataTemplate>
+                    </CollectionView.HeaderTemplate>
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            HorizontalItemSpacing="15"
+                            Orientation="Vertical"
+                            Span="3"
+                            VerticalItemSpacing="15" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="classes:FullFamily">
+                            <Button
+                                Command="{Binding BindingContext.SelectFamilyCommand, Source={x:Reference this}}"
+                                CommandParameter="{Binding .}"
+                                Text="{Binding FamilyName}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <CollectionView
+                    EmptyView="{Binding .}"
+                    Header="{Binding .}"
+                    IsVisible="{Binding NotSentAnimInfoBack}"
+                    ItemsSource="{Binding Foods}"
+                    SelectedItem="{Binding SelectedFood}"
+                    SelectionMode="Single">
+                    <CollectionView.EmptyViewTemplate>
+                        <DataTemplate>
+                            <Label
+                                HorizontalOptions="Start"
+                                Margin="50,0"
+                                Style="{DynamicResource SmallTitle}"
+                                Text="No food found" />
+                        </DataTemplate>
+                    </CollectionView.EmptyViewTemplate>
+                    <CollectionView.HeaderTemplate>
+                        <DataTemplate>
+                            <Label
+                                SemanticProperties.HeadingLevel="Level1"
+                                Style="{DynamicResource SmallTitle}"
+                                Text="Select Food:" />
+                        </DataTemplate>
+                    </CollectionView.HeaderTemplate>
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout
+                            HorizontalItemSpacing="15"
+                            Orientation="Vertical"
+                            Span="3"
+                            VerticalItemSpacing="15" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="classes:Food">
+                            <Button
+                                Command="{Binding BindingContext.SelectFoodCommand, Source={x:Reference this}}"
+                                CommandParameter="{Binding .}"
+                                Text="{Binding Name}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+        <Button
+            Grid.Row="1"
+            Margin="25,0"
+            Command="{Binding CreateAnimalCommand}"
+            IsVisible="{Binding NotSentAnimInfoBack}"
+            Text="Create Animal" />
+        <Button
+            Grid.Row="1"
+            Margin="25,0"
+            Command="{Binding SentAnimalBackCommand}"
+            IsVisible="{Binding SentAnimalInfoBack}"
+            Text="Continue" />
+    </Grid>
+
+</ContentPage>

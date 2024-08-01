@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    Title="AniFoodNew"
+    x:Class="AniFoodNew.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:AniFoodNew"
+    xmlns:overviews="clr-namespace:AniFoodNew.Views.Overview"
+    xmlns:settings="clr-namespace:AniFoodNew.Views.SettingsPages"
+    xmlns:views="clr-namespace:AniFoodNew.Views"
+    Shell.FlyoutBehavior="Disabled">
+
+    <ShellContent Route="LoadingPage"
+        Title="Loading"
+        ContentTemplate="{DataTemplate views:LoadingPage}" />
+    <ShellContent Route="LoginPage"
+        Title="Login"
+        ContentTemplate="{DataTemplate views:LoginPage}"
+        />
+    <ShellContent Route="AddFoodPage"
+        Title="Add Food"
+        ContentTemplate="{DataTemplate views:AddFoodPage}" />
+    <ShellContent Route="NoConnectionPage"
+        Title="No Connection"
+        ContentTemplate="{DataTemplate views:NoConnectionPage}" />
+    <ShellContent Route="AddAnimalPage"
+        Title="Add Animal"
+        ContentTemplate="{DataTemplate views:AddAnimalPage}"/>
+    <TabBar>
+        <ShellContent Route="MainPage"
+            Title="Main"
+            ContentTemplate="{DataTemplate views:MainPage}"
+            Icon="homepage_icon.png"/>
+        <Tab Title="Settings"
+             Icon="settings_icon.png">
+            <ShellContent Route="SettingsPage"
+                Title="Settings"
+                ContentTemplate="{DataTemplate views:SettingsPage}"/>
+            <ShellContent Route="AnimalSettingsPage"
+                Title="Animal Settings"
+                ContentTemplate="{DataTemplate settings:AnimalsSettingPage}" />
+            <ShellContent Route="FamilySettingsPage"
+                Title="Family Settings"
+                ContentTemplate="{DataTemplate settings:FamilySettingsPage}" />
+            <ShellContent Route="AboutPage"
+                Title="About"
+                ContentTemplate="{DataTemplate settings:AboutPage}" />
+        </Tab>
+
+
+    </TabBar>
+
+</Shell>

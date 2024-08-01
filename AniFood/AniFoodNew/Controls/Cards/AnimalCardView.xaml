@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView x:Name="this"
+    x:Class="AniFoodNew.Controls.Cards.AnimalCardView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:AniFoodNew.Controls"
+    xmlns:layouts="clr-namespace:AniFoodNew.Controls.Layouts"
+    xmlns:viewmodels="clr-namespace:AniFoodNew.ViewModels.ControlViewModels"
+    BindingContext="{x:Reference this}">
+    <Border Style="{DynamicResource CardBorder}">
+        <Grid ColumnDefinitions="{OnPlatform '*', WinUI='*,3*'}" RowDefinitions="{OnPlatform '2*,3*,*,*', WinUI='5*,*,*'}">
+            <Border Style="{StaticResource SmallPictureBorder}">
+                <Image Source="{Binding ImageUri}" />
+            </Border>
+            <VerticalStackLayout Grid.Row="{OnPlatform '1', WinUI='0'}" Grid.Column="1">
+                <controls:NameValuePairView Name="Name:" Value="{Binding Name}" />
+                <controls:NameValuePairView Name="Breed:" Value="{Binding Breed}" />
+                <controls:NameValuePairView Name="Birthday:" Value="{Binding Birthday}" />
+                <controls:NameValuePairView Name="Age:" Value="{Binding AgeInYears}" />
+                <controls:NameValuePairView Name="Family:" Value="{Binding Family}" />
+                <controls:NameValuePairView Name="Food:" Value="{Binding FoodName}" />
+                <controls:NameValuePairView Name="Notes:" Value="{Binding Notes}" />
+            </VerticalStackLayout>
+            <VerticalStackLayout Grid.Row="{OnPlatform '2', WinUI='1'}" Grid.ColumnSpan="2">
+                <Label Text="Food Left:" />
+                <Border Padding="0" Style="{DynamicResource CardBorder}">
+                    <Grid Padding="0" ColumnDefinitions="{Binding FoodArray, Converter={StaticResource IntsGridConverter}}">
+                        <Border Padding="25" Style="{DynamicResource ActiveProgressBorder}">
+                            <Label Text="{Binding Percentage}" />
+                        </Border>
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+        </Grid>
+    </Border>
+</ContentView>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    Title="Family settings"
+    x:Class="AniFoodNew.Views.SettingsPages.FamilySettingsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:AniFoodNew.ViewModels.SettingsViewModels"
+    x:DataType="model:FamilySettingsViewModel">
+    <VerticalStackLayout Style="{StaticResource MainStack}">
+        <VerticalStackLayout Style="{DynamicResource SettingsContainer}">
+            <Label Style="{DynamicResource Title}" Text="Switch Family" />
+            <Grid ColumnDefinitions="*, auto">
+                <Label Style="{DynamicResource SettingsLabel}"  Text="Change Family on location" />
+                <Switch
+                    Grid.Column="1"
+                    IsToggled="{Binding UseFamilyLocation}"
+                    SemanticProperties.Hint="Enable or disable the ability to automatically switch Families based on location" />
+            </Grid>
+            <Grid
+                ColumnDefinitions="*,*"
+                ColumnSpacing="20"
+                RowDefinitions="*,*"
+                RowSpacing="20">
+                <Button
+                    Command="{Binding AddFamilyCommand}"
+                    SemanticProperties.Hint="Use the familycode to add a family"
+                    Text="Add a family" />
+                <Button
+                    Grid.Column="1"
+                    Command="{Binding GoToCreateCommand}"
+                    SemanticProperties.Hint="Go to the create page"
+                    Text="Create a family" />
+                <Button
+                    Grid.Row="1"
+                    Command="{Binding LeaveFamilyCommand}"
+                    SemanticProperties.Hint="Leave a family"
+                    Text="Leave a family" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Command="{Binding GoToOverviewCommand}"
+                    SemanticProperties.Hint="Go to a page with the families and users"
+                    Text="Show overview" />
+            </Grid>
+        </VerticalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>

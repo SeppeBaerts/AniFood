@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    x:Class="AniFoodNew.Resources.Styles.Themes.HighContrastTheme"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Color x:Key="PrimaryColor">#d6b4fd</Color>
+    <Color x:Key="SecondaryColor">#ffee32</Color>
+    <Color x:Key="PrimaryTextColor">#000000</Color>
+    <Color x:Key="SecondaryTextColor">#0000ff</Color>
+    <Color x:Key="Background">#000000</Color>
+    <Color x:Key="BackgroundTextColor">#ffffff</Color>
+    <Style TargetType="Label">
+        <Setter Property="FontFamily" Value="OpenSansSemibold" />
+    </Style>
+</ResourceDictionary>

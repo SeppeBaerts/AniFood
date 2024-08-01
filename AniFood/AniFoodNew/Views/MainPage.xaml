@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Name="this"
+    Title="Overview"
+    x:Class="AniFoodNew.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:AniFoodNew.Controls"
+    xmlns:converters="clr-namespace:AniFoodNew.Converters"
+    xmlns:items="clr-namespace:AniFoodNew.Models.Classes"
+    xmlns:layouts="clr-namespace:AniFoodNew.Controls.Layouts"
+    xmlns:models="clr-namespace:AniFoodNew.ViewModels"
+    x:DataType="models:MainViewModel">
+    <ContentPage.Resources>
+        <FileImageSource x:Key="ColorStar" File="fav_star.png" />
+        <FileImageSource x:Key="BlackStar" File="fav_star_black.png" />
+    </ContentPage.Resources>
+    <RefreshView
+        Padding="20"
+        Command="{Binding RefreshCommand}"
+        IsRefreshing="{Binding IsRefreshing}">
+        <ScrollView>
+            <VerticalStackLayout Padding="{OnPlatform WinUI='20,0', Default='5'}" Spacing="25">
+                <ScrollView Orientation="Horizontal">
+                    <HorizontalStackLayout Margin="0,20,0,0" Spacing="10">
+                        <Button x:Name="AllButton"
+                            Command="{Binding ChangeFilterCommand}"
+                            CommandParameter="All"
+                            SemanticProperties.Description="disable filters and show all Animals and food"
+                            Text="All" />
+                        <Button x:Name="FavButton"
+                            Command="{Binding ChangeFilterCommand}"
+                            CommandParameter="Favorites"
+                            SemanticProperties.Description="show only the favorite animals and food"
+                            Text="Favorites" />
+                        <CollectionView
+                            HorizontalScrollBarVisibility="Never"
+                            ItemsLayout="HorizontalList"
+                            ItemsSource="{Binding Families}"
+                            SelectedItem="{Binding SelectedFamily}"
+                            SelectionMode="Single">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="items:FullFamily">
+                                    <Button
+                                        Margin="0,0,10,0"
+                                        Command="{Binding BindingContext.ChangeFilterWithFamilyCommand, Source={x:Reference this}}"
+                                        CommandParameter="{Binding .}"
+                                        Text="{Binding FamilyName}">
+                                        <SemanticProperties.Description>
+                                            <MultiBinding StringFormat="Only show animals and food from {0} Family. ">
+                                                <Binding Path="FamilyName" />
+                                            </MultiBinding>
+                                        </SemanticProperties.Description>
+                                    </Button>
+
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </HorizontalStackLayout>
+                </ScrollView>
+                <!--  Dit is nodig, want er is een bug waardoor je het op windows niet ziet.  -->
+                <Grid ColumnDefinitions="*, 50" IsVisible="{OnPlatform WinUI='True', Default='False'}">
+                    <Label
+                        SemanticProperties.HeadingLevel="Level1"
+                        Style="{DynamicResource Title}"
+                        Text="Animals" />
+                    <ImageButton
+                        Grid.Column="1"
+                        Command="{Binding AddAnimalCommand}"
+                        SemanticProperties.Description="Add an animal"
+                        Source="plus.png" />
+                </Grid>
+                <CollectionView Header="{Binding .}" ItemsSource="{Binding Animals}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout ItemSpacing="20" Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="*, 50" IsVisible="{OnPlatform WinUI='False', Default='True'}">
+                                <Label
+                                    SemanticProperties.HeadingLevel="Level1"
+                                    Style="{DynamicResource Title}"
+                                    Text="Animals" />
+                                <ImageButton
+                                    Grid.Column="1"
+                                    Command="{Binding AddAnimalCommand}"
+                                    SemanticProperties.Description="Add an animal"
+                                    Source="plus.png" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.HeaderTemplate>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="items:Animal">
+                            <SwipeView Threshold="100">
+                                <SwipeView.LeftItems>
+                                    <SwipeItems Mode="{Binding BindingContext.CanFeedOnSwipe, Converter={StaticResource BoolToSwipeMode}, Source={x:Reference this}}" SwipeBehaviorOnInvoked="Close">
+                                        <SwipeItem
+                                            BackgroundColor="Transparent"
+                                            Command="{Binding BindingContext.FeedAnimalCommand, Source={x:Reference this}}"
+                                            CommandParameter="{Binding .}"
+                                            SemanticProperties.Description="This will feed the selected animal."
+                                            Text="Feed" />
+                                    </SwipeItems>
+                                </SwipeView.LeftItems>
+                                <Border MinimumHeightRequest="250" Style="{DynamicResource CardBorder}">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.DetailsCommand, Source={x:Reference this}}" CommandParameter="{Binding .}" />
+                                        <TapGestureRecognizer
+                                            Command="{Binding BindingContext.ToggleFavoriteCommand, Source={x:Reference this}}"
+                                            CommandParameter="{Binding .}"
+                                            NumberOfTapsRequired="2"
+                                            SemanticProperties.Description="This will set the animal as a favorite" />
+                                    </Border.GestureRecognizers>
+                                    <Grid
+                                        Padding="10"
+                                        ColumnDefinitions="{OnPlatform '*,2*', WinUI='*,6*'}"
+                                        RowDefinitions="{OnPlatform '2*,*,*', WinUI='*,*,*'}">
+                                        <Border
+                                            Grid.Row="0"
+                                            Grid.RowSpan="{OnPlatform WinUI='3', Default='1'}"
+                                            Grid.Column="0"
+                                            Style="{DynamicResource SmallPictureBorder}">
+                                            <Image Aspect="AspectFill" Source="{Binding ImageUri}" />
+                                        </Border>
+                                        <Grid Grid.Column="1" RowDefinitions="*,*">
+                                            <ImageButton
+                                                Command="{Binding BindingContext.ToggleFavoriteCommand, Source={x:Reference this}}"
+                                                CommandParameter="{Binding .}"
+                                                HorizontalOptions="End"
+                                                MaximumHeightRequest="30"
+                                                MaximumWidthRequest="30"
+                                                SemanticProperties.Hint="This will set the animal as a favorite"
+                                                VerticalOptions="Start"
+                                                ZIndex="2">
+                                                <ImageButton.Source>
+                                                    <Binding
+                                                        FallbackValue="True"
+                                                        Path="IsFavorite"
+                                                        TargetNullValue="True">
+                                                        <Binding.Converter>
+                                                            <converters:BoolToObjectConverter
+                                                                x:TypeArguments="FileImageSource"
+                                                                FalseObject="{StaticResource BlackStar}"
+                                                                TrueObject="{StaticResource ColorStar}" />
+                                                        </Binding.Converter>
+                                                    </Binding>
+                                                </ImageButton.Source>
+                                            </ImageButton>
+                                            <Label
+                                                Style="{DynamicResource TitlePrimary}"
+                                                Text="{Binding Name}"
+                                                VerticalOptions="End" />
+                                            <Label
+                                                Grid.Row="1"
+                                                Margin="0"
+                                                Padding="0"
+                                                Style="{DynamicResource TinyTitlePrimary}"
+                                                Text="{Binding Breed}"
+                                                VerticalOptions="Start" />
+                                        </Grid>
+                                        <VerticalStackLayout
+                                            Grid.Row="1"
+                                            Grid.Column="{OnPlatform '0', WinUI='1'}"
+                                            Grid.ColumnSpan="{OnPlatform '2', WinUI='1'}">
+                                            <Label Style="{DynamicResource LabelPrimary}" Text="Food left:" />
+                                            <Border Style="{DynamicResource PercentageBarBorder}">
+                                                <Grid Padding="0" ColumnDefinitions="{Binding FoodArray, Converter={StaticResource IntsGridConverter}}">
+                                                    <Border Padding="10" Style="{DynamicResource ActiveProgressBorder}">
+                                                    </Border>
+                                                    <Label
+                                                        Grid.ColumnSpan="2"
+                                                        Margin="20,0,0,0"
+                                                        Padding="5"
+                                                        Style="{DynamicResource LabelPrimary}"
+                                                        Text="{Binding Percentage}" />
+                                                </Grid>
+                                            </Border>
+                                        </VerticalStackLayout>
+                                    </Grid>
+                                </Border>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Grid ColumnDefinitions="*, 40" IsVisible="{OnPlatform WinUI='True', Default='False'}">
+                    <Label
+                        SemanticProperties.HeadingLevel="Level1"
+                        Style="{DynamicResource Title}"
+                        Text="Food" />
+                    <ImageButton
+                        Grid.Column="1"
+                        Command="{Binding AddFoodCommand}"
+                        SemanticProperties.Description="Add food."
+                        Source="plus.png" />
+                </Grid>
+                <CollectionView Header="{Binding .}" ItemsSource="{Binding Foods}">
+                    <CollectionView.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="*, 40" IsVisible="{OnPlatform WinUI='False', Default='True'}">
+                                <Label
+                                    SemanticProperties.HeadingLevel="Level1"
+                                    Style="{DynamicResource Title}"
+                                    Text="Food" />
+                                <ImageButton
+                                    Grid.Column="1"
+                                    Command="{Binding AddFoodCommand}"
+                                    SemanticProperties.Description="A plus icon"
+                                    SemanticProperties.Hint="Add a food item"
+                                    Source="plus.png" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.HeaderTemplate>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="items:Food">
+                            <SwipeView IsEnabled="{OnPlatform WinUI='False', Default='True'}">
+                                <SwipeView.LeftItems>
+                                    <SwipeItems>
+                                        <SwipeItem
+                                            Command="{Binding BindingContext.MinusFoodCommand, Source={x:Reference this}}"
+                                            CommandParameter="{Binding .}"
+                                            IconImageSource="minus.png"
+                                            SemanticProperties.Description="A minus icon"
+                                            SemanticProperties.Hint="This will remove 1 quantity of the Food, if there are 0, this will remove the bag" />
+                                    </SwipeItems>
+                                </SwipeView.LeftItems>
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem
+                                            Command="{Binding BindingContext.PlusFoodCommand, Source={x:Reference this}}"
+                                            CommandParameter="{Binding .}"
+                                            IconImageSource="plus.png"
+                                            SemanticProperties.Description="A plus icon"
+                                            SemanticProperties.Hint="This will add 1 quantity of the Food" />
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+                                <Grid
+                                    Padding="{OnPlatform Default='0', WinUI='30,0'}"
+                                    ColumnDefinitions="{OnPlatform WinUI='40,*,40', Default='*'}"
+                                    ColumnSpacing="10">
+                                    <ImageButton
+                                        BackgroundColor="Transparent"
+                                        Command="{Binding BindingContext.MinusFoodCommand, Source={x:Reference this}}"
+                                        CommandParameter="{Binding .}"
+                                        IsVisible="{OnPlatform WinUI='True', Default='False'}"
+                                        SemanticProperties.Description="a minus icon"
+                                        SemanticProperties.Hint="This will remove 1 quantity of the Food, if there are 0, this will remove the bag"
+                                        Source="minus.png"
+                                        VerticalOptions="Center" />
+                                    <Border Grid.Column="1" Style="{DynamicResource CardBorder}">
+                                        <Grid ColumnDefinitions="{OnPlatform Default='*, 2*', WinUI='*,3*'}" RowDefinitions="{OnPlatform Default='5*,*', WinUI='*,*'}">
+                                            <Border
+                                                Grid.RowSpan="{OnPlatform '1', WinUI='2'}"
+                                                HorizontalOptions="Center"
+                                                Style="{DynamicResource SmallPictureBorder}"
+                                                VerticalOptions="Center">
+                                                <Image Aspect="AspectFill" Source="{Binding ImageUri}" />
+                                            </Border>
+                                            <VerticalStackLayout
+                                                Grid.RowSpan="2"
+                                                Grid.Column="1"
+                                                Spacing="5">
+                                                <Label Style="{DynamicResource TitlePrimary}" Text="{Binding Name}" />
+                                                <controls:NameValuePairView Name="Days left:" Value="{Binding DaysLeft}" />
+                                                <controls:NameValuePairView Name="in use by:" Value="{Binding AnimalsUsing}" />
+                                                <controls:NameValuePairView Name="Extra bags:" Value="{Binding NewBags}" />
+                                                <controls:NameValuePairView Name="Food left:" Value="{Binding CurrentCapacity}" />
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                    </Border>
+                                    <ImageButton
+                                        Grid.Column="2"
+                                        BackgroundColor="Transparent"
+                                        Command="{Binding BindingContext.PlusFoodCommand, Source={x:Reference this}}"
+                                        CommandParameter="{Binding .}"
+                                        IsVisible="{OnPlatform WinUI='True', Default='False'}"
+                                        SemanticProperties.Description="This will add 1 quantity of the Food"
+                                        Source="plus.png"
+                                        VerticalOptions="Center" />
+                                </Grid>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentPage>
