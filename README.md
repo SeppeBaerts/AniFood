@@ -1,6 +1,14 @@
 # Project C# Mobile 2023-2024 (ANIFOOD)
-Naam en email: **Seppe Baerts 12202625@student.pxl.be**
+>[!CAUTION]
+>Dit is een schoolproject en hoewel ik aandacht heb gegeven aan de implimentatie van clean en secure code, was dit niet de hoofdzaak. De webAPI in de .zip folder, is een voorbeeld webAPI en zeker en vast geen veilige webAPI.
+>Het project is goed voor een startpunt te zijn, maar door een aantal bugs kan ik dit verklaren als een kant-en-klaar product.
+>
+>
+>This is a school project, and even tho I have given attention to the implementation of secure and clean code, this was not the main task. The webAPI that is inside the .zip folder is an example webAPI and not at all a secure webAPI.
+>You can use this project as a starting point, but because of a couple of bugs and security vulnerabilities, this isn't a procuction-ready product.
 
+
+Naam en email: **Seppe Baerts 12202625@student.pxl.be**
 Titel applicatie: **AniFood**
 >[!NOTE]
 >Momenteel is alles bijgewerkt. Er moeten alleen nog een aantal kleine aanpassingen komen 
